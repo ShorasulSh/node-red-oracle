@@ -1,21 +1,31 @@
 {
   "name": "node-red-contrib-asbt-oracle",
-  "version": "1.0.5",
+  "version": "1.0.14",
   "description": "ASBT-specific Oracle DB connector node for Node-RED",
-  "keywords": ["node-red", "oracle", "asbt", "database"],
-  "author": "ASBT Dev Team",
+  "keywords": [
+    "node-red",
+    "oracle",
+    "asbt",
+    "database"
+  ],
+  "author": "shorasul.shoazimov@asbt.uz",
   "license": "MIT",
   "engines": {
-    "node": ">=12.0.0",
+    "node": ">=16.0.0",
     "node-red": "^3.2.0"
   },
   "dependencies": {
-    "oracledb": "^6.0.0"
+    "oracledb": "^6.2.0"
+  },
+  "devDependencies": {
+    "node-red": "^3.1.0",
+    "node-red-node-test-helper": "^0.3.2",
+    "should": "^13.2.3"
   },
   "node-red": {
-    "version": ">=2.0.0",
+    "version": ">=3.0.0",
     "nodes": {
-      "oracle": "oracle.js"
+      "asbt-oracle": "src/oracle.js"
     }
   },
   "repository": {
@@ -24,5 +34,10 @@
   },
   "bugs": {
     "url": "https://github.com/ShorasulSh/node-red-oracle/issues"
+  },
+
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

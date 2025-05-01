@@ -1,0 +1,93 @@
+<!-- Execution Node UI -->
+<script type="text/html" data-template-name="asbt-oracle">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Optional node name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-database"></i> Oracle Config</label>
+        <select id="node-input-server"></select> <!-- Dropdown: oracle-config -->
+    </div>
+</script>
+
+<!-- Config Node UI -->
+<script type="text/html" data-template-name="oracle-config">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Config Name</label>
+        <input type="text" id="node-config-input-name" placeholder="e.g. main-conn">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="fa fa-server"></i> Host</label>
+        <input type="text" id="node-config-input-host" placeholder="localhost">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="fa fa-plug"></i> Port</label>
+        <input type="number" id="node-config-input-port" placeholder="1521">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-database"><i class="fa fa-database"></i> Service / SID</label>
+        <input type="text" id="node-config-input-database" placeholder="orclpdb1">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-user"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-config-input-user" placeholder="e.g. system">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-password"><i class="fa fa-key"></i> Password</label>
+        <input type="password" id="node-config-input-password" placeholder="******">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-mode"><i class="fa fa-cogs"></i> Mode</label>
+        <select id="node-config-input-mode">
+            <option value="thin">Thin (default)</option>
+            <option value="thick">Thick</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-instantClient"><i class="fa fa-folder-open"></i> Instant Client Path</label>
+        <input type="text" id="node-config-input-instantClient" placeholder="e.g. C:\oracle\instantclient_11_2">
+    </div>
+</script>
+
+<!-- Node Registration Script -->
+<script type="text/javascript">
+    RED.nodes.registerType('oracle-config', {
+        category: 'config',
+        defaults: {
+            name: { value: "oracle-config" },
+            host: { value: "localhost", required: true },
+            port: { value: 1521, required: true, validate: RED.validators.number() },
+            database: { value: "orclpdb1", required: true },
+            user: { value: "system", required: true },
+            password: { value: "", required: true },
+            mode: { value: "thin", required: true },
+            instantClient: { value: "" }
+        },
+        label: function () {
+            return this.name || "oracle-config";
+        },
+        oneditprepare: function () {
+            const mode = $("#node-config-input-mode");
+            const instantClient = $("#node-config-input-instantClient");
+            mode.on("change", function () {
+                (mode.val() === "thick") ? instantClient.show() : instantClient.hide();
+            });
+            mode.trigger("change");
+        }
+    });
+
+    RED.nodes.registerType('asbt-oracle', {
+        category: 'database',
+        color: '#ffffff',
+        defaults: {
+            name: { value: "", required: false },
+            server: { value: "", type: "oracle-config", required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "icons/db.png",
+        label: function () {
+            return this.name || "asbt-oracle";
+        }
+    });
+</script>
