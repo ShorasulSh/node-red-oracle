@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    RED.nodes.registerType('oracle', {
+        category: 'database',
+        color: '#d4aa00',
+        defaults: {
+            user: { value: "" },
+            password: { value: "" },
+            connectString: { value: "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "icon.png",
+        label: function () {
+            return "Oracle DB";
+        }
+    });
+</script>
+
+<div class="form-row">
+    <label for="node-input-user"><i class="fa fa-user"></i> User</label>
+    <input type="text" id="node-input-user">
+</div>
+<div class="form-row">
+    <label for="node-input-password"><i class="fa fa-lock"></i> Password</label>
+    <input type="password" id="node-input-password">
+</div>
+<div class="form-row">
+    <label for="node-input-connectString"><i class="fa fa-plug"></i> Connect String</label>
+    <input type="text" id="node-input-connectString" placeholder="localhost/orclpdb1">
+</div>

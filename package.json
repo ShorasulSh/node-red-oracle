@@ -1,0 +1,17 @@
+{
+  "name": "node-red-oracle",
+  "version": "1.0.2",
+  "description": "Oracle DB node for Node-RED",
+  "main": "oracle.js",
+  "keywords": ["node-red", "oracle", "database"],
+  "node-red": {
+    "nodes": {
+      "oracle": "oracle.js"
+    }
+  },
+  "author": "Shorasul Shoazimov",
+  "license": "MIT",
+  "dependencies": {
+    "oracledb": "^6.0.0"
+  }
+}
