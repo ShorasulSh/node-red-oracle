@@ -1,7 +1,7 @@
 {
   "name": "node-red-contrib-asbt-oracle",
   "version": "1.0.14",
-  "description": "ASBT-specific Oracle DB connector node for Node-RED",
+  "description": "A secure and production-grade Node-RED connector for Oracle Database, fully compatible with Oracle 11g (11.2) using Thick Client mode.",
   "keywords": [
     "node-red",
     "oracle",
