@@ -1,4 +1,4 @@
-# node-red-oracle
+# node-red-contrib-asbt-oracle
 
 A secure, production-ready Oracle Database connector node for [Node-RED](https://nodered.org), designed for enterprise-level data integration scenarios. It allows developers to execute SQL queries against Oracle DB instances with full control and reliability.
 
@@ -16,4 +16,4 @@ A secure, production-ready Oracle Database connector node for [Node-RED](https:/
 Make sure you have [Oracle Instant Client](https://www.oracle.com/database/technologies/instant-client.html) installed on your system.
 
 ```bash
-npm install node-red-oracle
+npm install node-red-contrib-asbt-oracle

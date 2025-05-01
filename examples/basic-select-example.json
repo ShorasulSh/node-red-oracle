@@ -1,0 +1,45 @@
+[
+  {
+    "id": "1234567890ab",
+    "type": "inject",
+    "name": "Run Query",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"query\": \"SELECT * FROM employees WHERE department_id = 10\"}",
+    "payloadType": "json",
+    "x": 150,
+    "y": 100,
+    "wires": [["oracle-node-1"]]
+  },
+  {
+    "id": "oracle-node-1",
+    "type": "asbt-oracle",
+    "name": "Oracle Select",
+    "user": "your_db_user",
+    "password": "your_db_password",
+    "connectString": "localhost/orclpdb1",
+    "x": 370,
+    "y": 100,
+    "wires": [["debug-node-1"]]
+  },
+  {
+    "id": "debug-node-1",
+    "type": "debug",
+    "name": "Result Output",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "x": 600,
+    "y": 100,
+    "wires": []
+  }
+]

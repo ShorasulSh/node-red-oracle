@@ -1,7 +1,7 @@
 const oracledb = require("oracledb");
 
 module.exports = function (RED) {
-    function OracleNode(config) {
+    function AsbtOracleNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
 
@@ -26,5 +26,5 @@ module.exports = function (RED) {
         });
     }
 
-    RED.nodes.registerType("oracle", OracleNode);
+    RED.nodes.registerType("asbt-oracle", AsbtOracleNode);
 };
