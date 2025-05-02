@@ -1,20 +1,20 @@
-<!-- Execution Node UI -->
+<!-- UI for Execution Node -->
 <script type="text/html" data-template-name="asbt-oracle">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Optional node name">
     </div>
     <div class="form-row">
-        <label for="node-input-server"><i class="fa fa-database"></i> Oracle Config</label>
-        <select id="node-input-server"></select> <!-- Dropdown: oracle-config -->
+        <label for="node-input-server"><i class="fa fa-plug"></i> Oracle Config</label>
+        <input type="text" id="node-input-server">
     </div>
 </script>
 
-<!-- Config Node UI -->
+<!-- UI for Config Node -->
 <script type="text/html" data-template-name="oracle-config">
     <div class="form-row">
         <label for="node-config-input-name"><i class="fa fa-tag"></i> Config Name</label>
-        <input type="text" id="node-config-input-name" placeholder="e.g. main-conn">
+        <input type="text" id="node-config-input-name" placeholder="e.g. main-oracle-conn">
     </div>
     <div class="form-row">
         <label for="node-config-input-host"><i class="fa fa-server"></i> Host</label>
@@ -45,14 +45,61 @@
     </div>
     <div class="form-row">
         <label for="node-config-input-instantClient"><i class="fa fa-folder-open"></i> Instant Client Path</label>
-        <input type="text" id="node-config-input-instantClient" placeholder="e.g. C:\oracle\instantclient_11_2">
+        <input type="text" id="node-config-input-instantClient" placeholder="e.g. C:\\oracle\\instantclient_11_2">
     </div>
 </script>
 
-<!-- Node Registration Script -->
+<!-- Help Section -->
+<script type="text/markdown" data-help-name="asbt-oracle">
+    <h3 style="margin:8px 0 6px 0;">ASBT Oracle Node</h3>
+    <p style="margin:0 0 12px 0;">Enterprise-ready node for executing SQL on Oracle 11g+ using Thin or Thick client modes.</p>
+
+    <h4 style="margin:8px 0 4px 0;">Inputs</h4>
+    <table style="margin:0 0 12px 0;">
+    <tr><th>Property</th><th>Description</th></tr>
+    <tr><td><code>msg.topic</code></td><td><strong>Required.</strong> SQL query string</td></tr>
+    <tr><td><code>msg.payload.params</code></td><td><strong>Optional.</strong> Query parameters (e.g., <code>:id</code>)</td></tr>
+    <tr><td><code>msg.payload.options</code></td><td><strong>Optional.</strong> Oracle options (e.g., <code>{ autoCommit: true }</code>)</td></tr>
+    </table>
+
+    <h4 style="margin:8px 0 4px 0;">Outputs</h4>
+    <table style="margin:0 0 12px 0;">
+    <tr><th>Property</th><th>Description</th></tr>
+    <tr><td><code>msg.payload</code></td><td>Result rows (SELECT) or metadata (INSERT/UPDATE)</td></tr>
+    </table>
+
+    <h4 style="margin:8px 0 4px 0;">Example: INSERT</h4>
+    <pre style="margin:0 0 12px 0;">
+    msg.topic = "INSERT INTO RED_TEST (ID, NAME) VALUES (:id, :name)";
+    msg.payload = {
+      params: { id: 101, name: "Node-RED" },
+      options: { autoCommit: true }
+    };
+    return msg;
+    </pre>
+
+    <h4 style="margin:8px 0 4px 0;">Example: SELECT</h4>
+    <pre style="margin:0 0 12px 0;">
+    msg.topic = "SELECT * FROM RED_TEST WHERE ROWNUM <= 10";
+    msg.payload = {
+      options: { outFormat: 4002 }
+    };
+    return msg;
+    </pre>
+
+    <h4 style="margin:8px 0 4px 0;">Notes</h4>
+    <ul style="margin:0 0 0 10px;">
+      <li>Thin mode is default and requires no setup</li>
+      <li>Thick mode requires Oracle Instant Client (lib path)</li>
+      <li>Supported on Node.js ≥ 16 and Node-RED ≥ 3.2</li>
+    </ul>
+</script>
+
+
+<!-- Runtime JS Node Definitions -->
 <script type="text/javascript">
-    RED.nodes.registerType('oracle-config', {
-        category: 'config',
+    RED.nodes.registerType("oracle-config", {
+        category: "config",
         defaults: {
             name: { value: "oracle-config" },
             host: { value: "localhost", required: true },
@@ -76,9 +123,9 @@
         }
     });
 
-    RED.nodes.registerType('asbt-oracle', {
-        category: 'database',
-        color: '#ffffff',
+    RED.nodes.registerType("asbt-oracle", {
+        category: "database",
+        color: "#ffffff",
         defaults: {
             name: { value: "", required: false },
             server: { value: "", type: "oracle-config", required: true }
