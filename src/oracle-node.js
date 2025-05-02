@@ -37,13 +37,18 @@ module.exports = function (RED) {
                 const result = await connection.execute(
                     msg.topic,
                     msg.payload?.params || {},
-                    {
-                        ...msg.payload?.options,
-                        outFormat: 4002, // OBJECT format
-                        fetchArraySize: 100,
-                        autoCommit: true
-                    }
+                    msg.payload?.options || {}
                 );
+                // const result = await connection.execute(
+                //     msg.topic,
+                //     msg.payload?.params || {},
+                //     {
+                //         ...msg.payload?.options,
+                //         outFormat: 4002, // OBJECT format
+                //         fetchArraySize: 100,
+                //         autoCommit: true
+                //     }
+                // );
 
                 msg.payload = result.rows || result;
                 send(msg);
