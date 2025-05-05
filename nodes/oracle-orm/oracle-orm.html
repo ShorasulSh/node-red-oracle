@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    RED.nodes.registerType('oracle-orm', {
+        category: 'function',
+        color: '#E2D96E',
+        icon: "icons/db.png", // Optional: add if you have this icon
+        defaults: {
+            name: { value: "" },
+            oracle: { type: "oracle-config", required: true },
+            model: { type: "oracle-model", required: true },
+            operation: { value: "select", required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        label: function () {
+            return this.name || this.operation?.toUpperCase() || "oracle-orm";
+        }
+    });
+</script>
+
+<div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" name="name" placeholder="Optional name" />
+</div>
+
+<div class="form-row">
+    <label for="node-input-oracle"><i class="fa fa-cogs"></i> Oracle Config</label>
+    <input type="text" id="node-input-oracle" name="oracle" />
+</div>
+
+<div class="form-row">
+    <label for="node-input-model"><i class="fa fa-database"></i> Model</label>
+    <input type="text" id="node-input-model" name="model" />
+</div>
+
+<div class="form-row">
+    <label for="node-input-operation"><i class="fa fa-bolt"></i> Operation</label>
+    <select id="node-input-operation" name="operation">
+        <option value="select">SELECT</option>
+        <option value="insert">INSERT</option>
+        <option value="update">UPDATE</option>
+        <option value="delete">DELETE</option>
+    </select>
+</div>

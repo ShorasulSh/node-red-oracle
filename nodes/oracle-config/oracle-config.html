@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    RED.nodes.registerType('oracle-config', {
+        category: 'config',
+        defaults: {
+            name: { value: "" },
+            host: { value: "", required: true },
+            port: { value: 1521, required: true },
+            user: { value: "", required: true },
+            sid: { value: "", required: true }
+        },
+        credentials: {
+            password: { type: "password" }
+        },
+        label: function () {
+            return this.name || `${this.host}:${this.port}/${this.sid}`;
+        },
+        icon: "icons/db.png"
+    });
+</script>
+
+<div class="form-row">
+    <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" name="name" placeholder="Config name" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-host"><i class="fa fa-server"></i> Host</label>
+    <input type="text" id="node-config-input-host" name="host" placeholder="Hostname or IP" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-port"><i class="fa fa-plug"></i> Port</label>
+    <input type="number" id="node-config-input-port" name="port" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-user"><i class="fa fa-user"></i> User</label>
+    <input type="text" id="node-config-input-user" name="user" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-password"><i class="fa fa-lock"></i> Password</label>
+    <input type="password" id="node-config-input-password" name="password" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-sid"><i class="fa fa-database"></i> SID</label>
+    <input type="text" id="node-config-input-sid" name="sid" placeholder="e.g., XE or ORCL" />
+</div>

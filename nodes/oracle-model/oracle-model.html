@@ -1,0 +1,120 @@
+<script type="text/javascript">
+    RED.nodes.registerType('oracle-model', {
+        category: 'config',
+        defaults: {
+            name: { value: "" },
+            table: { value: "", required: true },
+            primaryKey: { value: "" },
+            columns: { value: [] }
+        },
+        label: function () {
+            return this.name || this.table;
+        },
+        icon: "icons/db.png", // optional but useful
+
+        oneditprepare: function () {
+            const node = this;
+            let columns = node.columns || [];
+
+            function renderTable() {
+                const body = $("#columns-body").empty();
+                columns.forEach((col, i) => {
+                    body.append(`
+                    <tr>
+                        <td><input type="text" class="col-name" value="${col.name || ""}"/></td>
+                        <td>
+                            <select class="col-type">
+                                <option value="VARCHAR2" ${col.type === "VARCHAR2" ? "selected" : ""}>VARCHAR2</option>
+                                <option value="NUMBER" ${col.type === "NUMBER" ? "selected" : ""}>NUMBER</option>
+                                <option value="DATE" ${col.type === "DATE" ? "selected" : ""}>DATE</option>
+                            </select>
+                        </td>
+                        <td><input type="checkbox" class="col-nullable" ${col.nullable ? "checked" : ""}/></td>
+                        <td><button class="delete-col">🗑</button></td>
+                    </tr>
+                `);
+                });
+            }
+
+            $("#add-column").on("click", () => {
+                columns.push({ name: "", type: "VARCHAR2", nullable: true });
+                renderTable();
+            });
+
+            $("#columns-body").on("click", ".delete-col", function () {
+                const index = $(this).closest("tr").index();
+                columns.splice(index, 1);
+                renderTable();
+            });
+
+            $("#columns-body").on("change", "input, select", function () {
+                const row = $(this).closest("tr");
+                const index = row.index();
+                columns[index] = {
+                    name: row.find(".col-name").val(),
+                    type: row.find(".col-type").val(),
+                    nullable: row.find(".col-nullable").is(":checked")
+                };
+            });
+
+            renderTable();
+            node.columns = columns;
+        },
+
+        oneditsave: function () {
+            const columns = [];
+            $("#columns-body tr").each(function () {
+                const row = $(this);
+                columns.push({
+                    name: row.find(".col-name").val(),
+                    type: row.find(".col-type").val(),
+                    nullable: row.find(".col-nullable").is(":checked")
+                });
+            });
+            this.columns = columns;
+        }
+    });
+</script>
+
+<style>
+    .form-row table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .form-row table td {
+        padding: 4px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<div class="form-row">
+    <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" name="name" placeholder="Optional model name" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-table"><i class="fa fa-table"></i> Table Name</label>
+    <input type="text" id="node-config-input-table" name="table" />
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-primaryKey"><i class="fa fa-key"></i> Primary Key</label>
+    <input type="text" id="node-config-input-primaryKey" name="primaryKey" />
+</div>
+
+<div class="form-row">
+    <label><i class="fa fa-columns"></i> Columns</label>
+    <button type="button" id="add-column">+ Add Column</button>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Nullable</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="columns-body"></tbody>
+    </table>
+</div>
