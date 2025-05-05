@@ -2,24 +2,23 @@
     RED.nodes.registerType('oracle-orm', {
         category: 'function',
         color: '#E2D96E',
-        icon: "icons/db.png", // Optional: add if you have this icon
+        icon: "font-awesome/fa-database",
         defaults: {
             name: { value: "" },
             oracle: { type: "oracle-config", required: true },
-            model: { type: "oracle-model", required: true },
-            operation: { value: "select", required: true }
+            query: { value: "", required: true }
         },
         inputs: 1,
         outputs: 1,
         label: function () {
-            return this.name || this.operation?.toUpperCase() || "oracle-orm";
+            return this.name || "Oracle Query";
         }
     });
 </script>
 
 <div class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-    <input type="text" id="node-input-name" name="name" placeholder="Optional name" />
+    <input type="text" id="node-input-name" name="name" placeholder="Optional node label" />
 </div>
 
 <div class="form-row">
@@ -28,16 +27,6 @@
 </div>
 
 <div class="form-row">
-    <label for="node-input-model"><i class="fa fa-database"></i> Model</label>
-    <input type="text" id="node-input-model" name="model" />
-</div>
-
-<div class="form-row">
-    <label for="node-input-operation"><i class="fa fa-bolt"></i> Operation</label>
-    <select id="node-input-operation" name="operation">
-        <option value="select">SELECT</option>
-        <option value="insert">INSERT</option>
-        <option value="update">UPDATE</option>
-        <option value="delete">DELETE</option>
-    </select>
+    <label for="node-input-query"><i class="fa fa-code"></i> SQL Query</label><br />
+    <textarea id="node-input-query" name="query" rows="5" style="width:100%;" placeholder="SELECT * FROM table WHERE id = :id"></textarea>
 </div>
